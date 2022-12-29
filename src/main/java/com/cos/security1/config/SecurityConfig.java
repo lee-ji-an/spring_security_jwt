@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity  //스프링 시큐리티 필터가 스프링 필터체인에 등록됨.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean  //리턴되는 오브젝트를 IoC로 등록
+    @Bean  //리턴되는 오브젝트를 IoC로 등
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/user/**").authenticated()        // user/** 주소로 들어오면 인증이 필요해!
+                .antMatchers("/user/**").authenticated()        // user/** 주소로 들어오면 인증이 필요해! (인증만 되면 들어갈 수 있음)
                 .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 // manager/** , admin/** 로 들어오면 인증뿐 아니라 다음과 같은 access 권한이 있는 사람만 들어갈 수 있게
@@ -28,7 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 이외의 모든 접근은 허용
                 .and()
                 .formLogin()
-                .loginPage("/loginForm");   // 권한이 없는 페이지 접근시 login 페이지로 자동으로 연결되게
+                .loginPage("/loginForm")   // 권한이 없는 페이지 접근시 login 페이지로 자동으로 연결되게
+                .loginProcessingUrl("/login")  // login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해줌. (컨트롤러에 /login 을 안 만들어도 됨.)
+                .defaultSuccessUrl("/");       // 로그인 완료된 후, '/' 를 반환함 (특정 페이지를 들어가려다 login 페이지로 들어왔을 경우, 해당 페이지로 갈 수 있게 해줌)
     }
 
 }
