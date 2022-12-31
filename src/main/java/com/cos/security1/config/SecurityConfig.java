@@ -32,7 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/loginForm")   // 권한이 없는 페이지 접근시 login 페이지로 자동으로 연결되게
                 .loginProcessingUrl("/login")  // login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해줌. (컨트롤러에 /login 을 안 만들어도 됨.)
-                .defaultSuccessUrl("/");       // 로그인 완료된 후, '/' 를 반환함 (특정 페이지를 들어가려다 login 페이지로 들어왔을 경우, 해당 페이지로 갈 수 있게 해줌)
+                .defaultSuccessUrl("/")       // 로그인 완료된 후, '/' 를 반환함 (특정 페이지를 들어가려다 login 페이지로 들어왔을 경우, 해당 페이지로 갈 수 있게 해줌)
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm");   // 구글 로그인이 완료된 뒤의 후처리가 필요
     }
 
 }

@@ -24,3 +24,16 @@ spring:
       ddl-auto: update #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 608244952191-ij77p951hdiu632pg5289cqbm0d9gqp7.apps.googleusercontent.com
+            client-secret: google-login-key
+            scope:
+              - email
+              - profile
+  profiles:
+    include: KEY

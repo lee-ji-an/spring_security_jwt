@@ -29,3 +29,4 @@ mvnw
 mvnw.cmd
 target/
 HELP.md
+application.yml
