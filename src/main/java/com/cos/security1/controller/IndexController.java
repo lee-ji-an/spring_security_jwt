@@ -3,6 +3,8 @@ package com.cos.security1.controller;
 import com.cos.security1.model.User;
 import com.cos.security1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,4 +61,17 @@ public class IndexController {
     public String login() {
         return "loginForm";
     }
+
+    @Secured("ROLE_ADMIN")    // 특정 메소드에 간단하게 권한 설정 하고 싶을 때!
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 해당 메소드 실행 전에 검사 (권한 2개 이상 지정하고 싶을 때)
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "데이터정보";
+    }
+
 }
